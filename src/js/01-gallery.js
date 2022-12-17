@@ -4,47 +4,46 @@ import { galleryItems } from './gallery-items.js';
 
 
 
-const gallaryContainer = document.querySelector(".gallery");
-const markup = creatGalleryMarkup(galleryItems);  
+const boxDivRef = document.querySelector('.gallery')
 
-gallaryContainer.innerHTML = markup;
-
-function creatGalleryMarkup(galleryItems) {
-    
-    return galleryItems.map(({ preview, original, description })=> {
-        return `<div class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
+const markup = galleryItems
+  .map(({ preview, original, description }) => {
+    return `<div class="gallery__item">
+  <a class="gallery__link" href=${original}>
     <img
       class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
+      src=${preview}
+      data-source=${original}
+      alt=${description}
     />
   </a>
-</div> `
-    }).join("")
-     
-};
-
-gallaryContainer.addEventListener("click", handlerClick);
+</div>`;
+    
+  }).join('');
+ 
+boxDivRef.insertAdjacentHTML("beforeend", markup);
   
- function handlerClick(ev)  {
-   blockAction(ev);
+boxDivRef.addEventListener("click", onGalleryBoxClick);
+function onGalleryBoxClick(ev) {
+  ev.preventDefault();
+  if (ev.target.nodeName !== "IMG") {
+    return
+  }
+  let bigIMg = ev.target.dataset.source;
+  console.log(bigIMg);
+
+  const instance = basicLightbox.create(`
+    <img src=${bigIMg} width="800" height="600">
+`);
+  instance.show();
+  
+  document.addEventListener('keydown', onCloseImg);
+
+  function onCloseImg(ev) {
    
-   if (ev.target.nodeName !== "IMG") {
-     return
-   }
-      const instance = basicLightbox.create( ` <img src ="${ev.target.dataset.source}" width = "800" height = "800"> `)
-   instance.show(); 
-   gallaryContainer.addEventListener("keydown", ev => {
-     if (ev.code === "Escape") {
-           instance.close()
-         }
-      })
-
-} 
-
-
-function blockAction(ev) {
-    ev.preventDefault();
+    if (ev.code === "Escape") {
+       instance.close()
+     }
+ } 
 }
+
