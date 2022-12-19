@@ -30,7 +30,7 @@ function onGalleryBoxClick(ev) {
     return
   }
   let bigIMg = ev.target.dataset.source;
-  console.log(bigIMg);
+
 
   const instance = basicLightbox.create(`
     <img src=${bigIMg} width="800" height="600">

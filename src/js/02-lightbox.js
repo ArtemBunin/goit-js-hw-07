@@ -20,12 +20,4 @@ const markup = galleryItems
   }).join('');
  
 boxDivRef.insertAdjacentHTML("beforeend", markup);
-
-boxDivRef.addEventListener("click", onGalleryBoxClick);
- function onGalleryBoxClick(ev){
-    ev.preventDefault();
-    if (ev.target.nodeName !== "IMG") {
-        return
-      }
-      var lightbox = new SimpleLightbox('.gallery a', { captionsData:'alt',captionDelay :250});
- }
+var lightbox = new SimpleLightbox('.gallery a', { captionsData:'alt',captionDelay :250})
